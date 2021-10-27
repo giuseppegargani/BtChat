@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/activity_main.xml" value="0.11614583333333334" />
-        <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/fragment_start.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/fragment_choice_device.xml" value="0.11614583333333334" />
+        <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/fragment_start.xml" value="0.264" />
       </map>
     </option>
   </component>

@@ -8,5 +8,13 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="com.example.btchat.StartFragment"
-        android:label="StartFragment" />
+        android:label="StartFragment" >
+        <action
+            android:id="@+id/action_startFragment_to_choiceDeviceFragment"
+            app:destination="@id/choiceDeviceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/choiceDeviceFragment"
+        android:name="com.example.btchat.ChoiceDeviceFragment"
+        android:label="ChoiceDeviceFragment" />
 </navigation>

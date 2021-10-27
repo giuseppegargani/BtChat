@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.example.btchat.databinding.FragmentStartBinding
 
 class StartFragment : Fragment() {
@@ -15,6 +17,11 @@ class StartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = DataBindingUtil.inflate<FragmentStartBinding>(inflater, R.layout.fragment_start, container, false)
+
+        binding.buttonChoice.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.action_startFragment_to_choiceDeviceFragment)
+        }
+
         return binding.root
     }
 }
