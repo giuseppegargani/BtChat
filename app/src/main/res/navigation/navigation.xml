@@ -16,5 +16,13 @@
     <fragment
         android:id="@+id/choiceDeviceFragment"
         android:name="com.example.btchat.ChoiceDeviceFragment"
-        android:label="ChoiceDeviceFragment" />
+        android:label="ChoiceDeviceFragment" >
+        <action
+            android:id="@+id/action_choiceDeviceFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.btchat.ChatFragment"
+        android:label="ChatFragment" />
 </navigation>
