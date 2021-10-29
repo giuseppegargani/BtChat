@@ -40,7 +40,6 @@ recyclerView= activity?.findViewById<RecyclerView>(R.id.recyclerView)!!
 
 class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickListener */ {
 
-    //TODO 1 - aggiunta di variabili
     private lateinit var recyclerView: RecyclerView
     private val mDeviceList = arrayListOf<DeviceData>()
     private lateinit var devicesAdapter: DevicesRecyclerViewAdapter
@@ -65,7 +64,13 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
         // Inflate the layout for this fragment
         val binding = DataBindingUtil.inflate<FragmentChoiceDeviceBinding>(inflater, R.layout.fragment_choice_device, container, false)
 
-        //TODO creare la lista da adapter
+
+        var filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+        activity?.registerReceiver(mReceiver, filter)
+
+        // Register for broadcasts when discovery has finished
+        filter = IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
+        activity?.registerReceiver(mReceiver, filter)
 
         // Get the local Bluetooth adapter
         mBtAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -79,9 +84,8 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
             } else {
                 Toast.makeText(context,"Bluetooth acceso e pronto all'uso",Toast.LENGTH_SHORT).show()
             }
-            // Get a set of currently paired devices
+
             //DA MODIFICARE
-            // Get a set of currently paired devices
             val pairedDevices = mBtAdapter?.bondedDevices
             val mPairedDeviceList = arrayListOf<DeviceData>()
 
@@ -92,11 +96,14 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
                     val deviceName = device.name ?: "Senza nome"
                     val deviceHardwareAddress = device.address // MAC address
                     mPairedDeviceList.add(DeviceData(deviceName,deviceHardwareAddress))
-                    Log.d("devices","nome "+deviceName+" e indirizzo: "+device.address)
                 }
 
+                /*TODO TOLTO COLLEGAMENTO TRA RECYCLERVIEW E PAIREDDEVICELIST E MODIFICATO PER TROVATE
+                INIZIALMENTE LA LISTA E' VUOTA!!! E VIENE AGGIUNTA CON RICERCA
+
+                 */
                 recyclerView= binding.recyclerView
-                val devicesAdapter = DevicesRecyclerViewAdapter(context = this, mDeviceList = mPairedDeviceList)
+                devicesAdapter = DevicesRecyclerViewAdapter(context = this, mDeviceList = mDeviceList)
                 recyclerView.adapter = devicesAdapter
                 //devicesAdapter.setItemClickListener(this)
                 //headerLabelPaired.visibility = View.VISIBLE
@@ -106,6 +113,8 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
         binding.chatButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_choiceDeviceFragment_to_chatFragment)
         }
+
+        startDiscovery()
 
         return binding.root
     }
@@ -135,7 +144,55 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
             builder?.show()
 
         } else {
-            //startDiscovery()
+            startDiscovery()
+        }
+    }
+
+    private fun startDiscovery() {
+
+        //headerLabelContainer.visibility = View.VISIBLE
+        //progressBar.visibility = View.VISIBLE
+        //headerLabel.text = getString(R.string.searching)
+        mDeviceList.clear()
+
+        // If we're already discovering, stop it
+        if (mBtAdapter?.isDiscovering ?: false)
+            mBtAdapter?.cancelDiscovery()
+
+        // Request discover from BluetoothAdapter
+        mBtAdapter?.startDiscovery()
+    }
+
+    // Create a BroadcastReceiver for ACTION_FOUND.
+    private val mReceiver = object : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+
+            val action = intent.action
+
+            if (BluetoothDevice.ACTION_FOUND == action) {
+                // Discovery has found a device. Get the BluetoothDevice
+                // object and its info from the Intent.
+                val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                val deviceName = device?.name ?: "Senza nome"
+                val deviceHardwareAddress = device!!.address // MAC address
+
+                val deviceData = DeviceData(deviceName, deviceHardwareAddress)
+                mDeviceList.add(deviceData)
+
+                val setList = HashSet<DeviceData>(mDeviceList)
+                mDeviceList.clear()
+                mDeviceList.addAll(setList)
+
+                Log.d("trovate", "trovata bt unità. Nome "+deviceName+" address "+deviceHardwareAddress)
+                //Da Modificare
+                devicesAdapter.notifyDataSetChanged()
+            }
+
+            if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action) {
+                //progressBar.visibility = View.INVISIBLE
+                //headerLabel.text = getString(R.string.found)
+            }
         }
     }
 

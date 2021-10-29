@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         tools:context=".ChoiceDeviceFragment">
 
-        <!--TODO si deve mettere anche il LinearLayoutmanager-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
