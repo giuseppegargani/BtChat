@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,11 +19,31 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.btchat.databinding.FragmentChoiceDeviceBinding
 import kotlin.system.exitProcess
 
+/* SI DEVE METTERE ANCHE IL SIMBOLO DI BLUETOOTH
+
+RecyclerView
+https://www.geeksforgeeks.org/how-to-disable-recyclerview-scrolling-in-android/
+
+recyclerView= activity?.findViewById<RecyclerView>(R.id.recyclerView)!!
+                //val myLinearLayoutManager = LinearLayoutManager(activity)
+                //recyclerView.layoutManager = myLinearLayoutManager
+                //val devicesAdapter = DevicesRecyclerViewAdapter(context = this, mDeviceList = mPairedDeviceList)
+                //recyclerView.adapter = devicesAdapter
+                //devicesAdapter.setItemClickListener(this)
+                //headerLabelPaired.visibility = View.VISIBLE
+*/
+
 class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickListener */ {
+
+    //TODO 1 - aggiunta di variabili
+    private lateinit var recyclerView: RecyclerView
+    private val mDeviceList = arrayListOf<DeviceData>()
+    private lateinit var devicesAdapter: DevicesRecyclerViewAdapter
 
     private val REQUEST_ENABLE_BT = 123
     private var mBtAdapter: BluetoothAdapter? = null
@@ -34,21 +55,6 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Get the local Bluetooth adapter
-        mBtAdapter = BluetoothAdapter.getDefaultAdapter()
-        //la parte di logica che verifica bt attivo e manda alert ed eventualmente chiude app
-        if (mBtAdapter == null)
-            showAlertAndExit()
-        else {
-
-            if (mBtAdapter?.isEnabled == false) {
-                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
-            } else {
-                Toast.makeText(context,"Bluetooth acceso e pronto all'uso",Toast.LENGTH_SHORT).show()
-            }
-        }
-
         checkPermissions()
     }
 
@@ -58,6 +64,44 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
     ): View? {
         // Inflate the layout for this fragment
         val binding = DataBindingUtil.inflate<FragmentChoiceDeviceBinding>(inflater, R.layout.fragment_choice_device, container, false)
+
+        //TODO creare la lista da adapter
+
+        // Get the local Bluetooth adapter
+        mBtAdapter = BluetoothAdapter.getDefaultAdapter()
+        //la parte di logica che verifica bt attivo e manda alert ed eventualmente chiude app
+        if (mBtAdapter == null)
+            showAlertAndExit()
+        else {
+            if (mBtAdapter?.isEnabled == false) {
+                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
+            } else {
+                Toast.makeText(context,"Bluetooth acceso e pronto all'uso",Toast.LENGTH_SHORT).show()
+            }
+            // Get a set of currently paired devices
+            //DA MODIFICARE
+            // Get a set of currently paired devices
+            val pairedDevices = mBtAdapter?.bondedDevices
+            val mPairedDeviceList = arrayListOf<DeviceData>()
+
+            // If there are paired devices, add each one to the ArrayAdapter
+            if (pairedDevices?.size ?: 0 > 0) {
+                // There are paired devices. Get the name and address of each paired device.
+                for (device in pairedDevices!!) {
+                    val deviceName = device.name ?: "Senza nome"
+                    val deviceHardwareAddress = device.address // MAC address
+                    mPairedDeviceList.add(DeviceData(deviceName,deviceHardwareAddress))
+                    Log.d("devices","nome "+deviceName+" e indirizzo: "+device.address)
+                }
+
+                recyclerView= binding.recyclerView
+                val devicesAdapter = DevicesRecyclerViewAdapter(context = this, mDeviceList = mPairedDeviceList)
+                recyclerView.adapter = devicesAdapter
+                //devicesAdapter.setItemClickListener(this)
+                //headerLabelPaired.visibility = View.VISIBLE
+            }
+        }
 
         binding.chatButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_choiceDeviceFragment_to_chatFragment)

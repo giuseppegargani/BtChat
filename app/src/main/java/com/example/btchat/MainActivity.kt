@@ -7,8 +7,6 @@ ed essere sempre collegato
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-/*TODO Aggiungi un fragment iniziale
- */
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
