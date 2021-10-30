@@ -93,14 +93,14 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
             if (pairedDevices?.size ?: 0 > 0) {
                 // There are paired devices. Get the name and address of each paired device.
                 for (device in pairedDevices!!) {
-                    val deviceName = device.name ?: "Senza nome"
+                    val deviceName = device.name ?: device!!.address
                     val deviceHardwareAddress = device.address // MAC address
                     mPairedDeviceList.add(DeviceData(deviceName,deviceHardwareAddress))
                 }
+                Log.d("accoppiata", pairedDevices.toString())
 
                 /*TODO TOLTO COLLEGAMENTO TRA RECYCLERVIEW E PAIREDDEVICELIST E MODIFICATO PER TROVATE
                 INIZIALMENTE LA LISTA E' VUOTA!!! E VIENE AGGIUNTA CON RICERCA
-
                  */
                 recyclerView= binding.recyclerView
                 devicesAdapter = DevicesRecyclerViewAdapter(context = this, mDeviceList = mDeviceList)
@@ -174,10 +174,13 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
                 // Discovery has found a device. Get the BluetoothDevice
                 // object and its info from the Intent.
                 val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                val deviceName = device?.name ?: "Senza nome"
+                val deviceName = device?.name ?: device!!.address
                 val deviceHardwareAddress = device!!.address // MAC address
 
                 val deviceData = DeviceData(deviceName, deviceHardwareAddress)
+
+                /*TODO AGGIUNGI SOLO SE PRESENTE DENTRO PAIREDLIST
+                 */
                 mDeviceList.add(deviceData)
 
                 val setList = HashSet<DeviceData>(mDeviceList)

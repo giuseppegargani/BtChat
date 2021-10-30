@@ -39,7 +39,9 @@ class ExampleInstrumentedTest {
         Espresso.onView(withId(R.id.buttonChoice)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withText("Selecting devices")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withText("Selecting devices")).perform(click())
-        Espresso.onView(ViewMatchers.withText("Hello blank fragment")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("Unità Bt accoppiate e disponibili")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Thread.sleep(10000)
+        Espresso.onView(ViewMatchers.withId(R.id.chat_button)).perform(click())
     }
 
 

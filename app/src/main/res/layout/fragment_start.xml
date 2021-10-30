@@ -13,11 +13,13 @@
         android:layout_height="match_parent"
         tools:context=".StartFragment">
 
-        <Button
+        <ImageButton
             android:id="@+id/buttonChoice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:text="Selecting devices"
+            android:background="@drawable/chat"
+            android:contentDescription="ImageButton of chat"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
