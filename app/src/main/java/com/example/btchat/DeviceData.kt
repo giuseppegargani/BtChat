@@ -10,5 +10,4 @@ data class DeviceData(val deviceName: String?,val deviceHardwareAddress: String)
     override fun hashCode(): Int {
         return deviceHardwareAddress.hashCode()
     }
-
 }

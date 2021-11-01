@@ -19,6 +19,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.btchat.databinding.FragmentChoiceDeviceBinding
@@ -36,6 +37,8 @@ recyclerView= activity?.findViewById<RecyclerView>(R.id.recyclerView)!!
                 //recyclerView.adapter = devicesAdapter
                 //devicesAdapter.setItemClickListener(this)
                 //headerLabelPaired.visibility = View.VISIBLE
+
+                METTERE FOTO DIVERSA SULLA BASE DEL TIPO DI HARDWARE ONBINDVIEWHOLDER
 */
 
 class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickListener */ {
@@ -49,6 +52,9 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
     private val PERMISSION_REQUEST_LOCATION = 123
     private val PERMISSION_REQUEST_LOCATION_KEY = "PERMISSION_REQUEST_LOCATION"
     private var alreadyAskedForPermission = false
+    //INIZIALIZZARE UN SERVIZIO BLUETOOTH CHAT
+    private var mChatService: BluetoothChatService? = null
+    private var connected: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +77,10 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
         // Register for broadcasts when discovery has finished
         filter = IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
         activity?.registerReceiver(mReceiver, filter)
+
+        //TODO INIZIALIZZARE IL CHAT SERVICE
+        // Initialize the BluetoothChatService to perform bluetooth connections
+        //mChatService = BluetoothChatService(this, mHandler)
 
         // Get the local Bluetooth adapter
         mBtAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -99,17 +109,23 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
                 }
                 Log.d("accoppiata", pairedDevices.toString())
 
-                /*TODO TOLTO COLLEGAMENTO TRA RECYCLERVIEW E PAIREDDEVICELIST E MODIFICATO PER TROVATE
-                INIZIALMENTE LA LISTA E' VUOTA!!! E VIENE AGGIUNTA CON RICERCA
+                /*TODO GRIDLAYOUT MANAGER
+                    Da cambiare context in getActivity ??
                  */
+
+                val manager = GridLayoutManager(context,3)
+
                 recyclerView= binding.recyclerView
+                recyclerView.layoutManager = manager
                 devicesAdapter = DevicesRecyclerViewAdapter(context = this, mDeviceList = mDeviceList)
                 recyclerView.adapter = devicesAdapter
                 //devicesAdapter.setItemClickListener(this)
                 //headerLabelPaired.visibility = View.VISIBLE
+
             }
         }
 
+        //si può anche togliere perchè va solamente ad un fragment vuoto
         binding.chatButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_choiceDeviceFragment_to_chatFragment)
         }
@@ -199,6 +215,24 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
         }
     }
 
+    //DA METTERE IN VIEWMODEL?
+    private fun connectDevice(deviceData: DeviceData) {
+
+        // Cancel discovery because it's costly and we're about to connect
+        mBtAdapter?.cancelDiscovery()
+        val deviceAddress = deviceData.deviceHardwareAddress
+
+        val device = mBtAdapter?.getRemoteDevice(deviceAddress)
+
+        //TODO DA RIMETTERE
+        //status.text = getString(R.string.connecting)
+        //connectionDot.setImageDrawable(getDrawable(R.drawable.ic_circle_connecting))
+
+        // Attempt to connect to the device
+        mChatService?.connect(device, true)
+
+    }
+
     //it closes the app if there is no bluetooth but signaling it
     private fun showAlertAndExit() {
         //because getContext return a nullable object
@@ -240,5 +274,6 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
             }
         }
     }
+
 
 }

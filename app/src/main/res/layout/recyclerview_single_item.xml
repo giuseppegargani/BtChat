@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
@@ -7,24 +10,35 @@
     android:focusable="true"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="101dp"
+        android:layout_height="98dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/chat" />
+
     <TextView
         android:id="@+id/largeLabel"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/large_label_margin"
         android:paddingLeft="24dp"
         android:paddingTop="14dp"
         android:paddingRight="24dp"
         android:paddingBottom="14dp"
         android:text="@string/app_name"
         android:textColor="@color/colorSecondaryText"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_marginStart="@dimen/large_dash_margin"
+    <!--View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/dashed_background"
-        android:layerType="software" />
+        android:layerType="software"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/largeLabel" /-->
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
