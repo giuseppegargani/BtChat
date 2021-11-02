@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.btchat.databinding.FragmentChatBinding
@@ -15,7 +16,6 @@ class ChatFragment : Fragment() {
 
     private lateinit var chatInput: EditText
     private lateinit var sendButton: FrameLayout
-    private var communicationListener: CommunicationListener? = null
     private var chatAdapter: ChatAdapter? = null
     private lateinit var recyclerviewChat: RecyclerView
     private val messageList = arrayListOf<Message>()
@@ -34,11 +34,8 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = DataBindingUtil.inflate<FragmentChatBinding>(inflater, R.layout.fragment_chat, container, false)
+        //binding.answerAddressDevice.text = "Accidenti"
         return binding.root
-    }
-
-    interface CommunicationListener{
-        fun onCommunication(message: String)
     }
 
 }

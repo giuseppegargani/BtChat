@@ -19,6 +19,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +42,7 @@ recyclerView= activity?.findViewById<RecyclerView>(R.id.recyclerView)!!
                 METTERE FOTO DIVERSA SULLA BASE DEL TIPO DI HARDWARE ONBINDVIEWHOLDER
 */
 
-class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickListener */ {
+class ChoiceDeviceFragment : Fragment(), DevicesRecyclerViewAdapter.ItemClickListener{
 
     private lateinit var recyclerView: RecyclerView
     private val mDeviceList = arrayListOf<DeviceData>()
@@ -119,15 +120,10 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
                 recyclerView.layoutManager = manager
                 devicesAdapter = DevicesRecyclerViewAdapter(context = this, mDeviceList = mDeviceList)
                 recyclerView.adapter = devicesAdapter
-                //devicesAdapter.setItemClickListener(this)
+                devicesAdapter.setItemClickListener(this)
                 //headerLabelPaired.visibility = View.VISIBLE
 
             }
-        }
-
-        //si può anche togliere perchè va solamente ad un fragment vuoto
-        binding.chatButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_choiceDeviceFragment_to_chatFragment)
         }
 
         startDiscovery()
@@ -273,6 +269,15 @@ class ChoiceDeviceFragment : Fragment()/*, DevicesRecyclerViewAdapter.ItemClickL
                 }
             }
         }
+    }
+
+    /*SI USA GET REMOTE ACCESS E SI SCRIVONO TUTTI I DATI
+     DOPO ESSERSI CONNESSI
+     Si deve mettere dei dati ad un altro fragment
+     */
+    override fun itemClicked(deviceData: DeviceData) {
+        findNavController().navigate(R.id.action_choiceDeviceFragment_to_chatFragment)
+        Toast.makeText(activity, "lanciato il "+deviceData.deviceName, Toast.LENGTH_SHORT ).show()
     }
 
 

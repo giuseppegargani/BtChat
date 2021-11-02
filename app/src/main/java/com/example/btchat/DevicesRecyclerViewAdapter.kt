@@ -43,9 +43,9 @@ class DevicesRecyclerViewAdapter(val mDeviceList: List<DeviceData>, val context:
         }
     }
 
-    /*fun setItemClickListener(listener: ChoiceDeviceFragment){
+    fun setItemClickListener(listener: ChoiceDeviceFragment){
         this.listener = listener
-    }*/
+    }
 
     interface ItemClickListener{
         fun itemClicked(deviceData: DeviceData)

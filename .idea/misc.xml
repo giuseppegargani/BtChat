@@ -3,12 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/drawable/circular_background.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/drawable/dashed_background.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/drawable/rounded_background.xml" value="0.2703125" />
         <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/drawable/rounded_chat_received_background.xml" value="0.2703125" />
         <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/drawable/selectable_background_rounded.xml" value="0.2703125" />
         <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/activity_main.xml" value="0.11614583333333334" />
-        <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/fragment_chat.xml" value="0.24365942028985507" />
+        <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/fragment_chat.xml" value="0.4" />
         <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/fragment_choice_device.xml" value="0.264" />
         <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/fragment_start.xml" value="0.136" />
         <entry key="..\:/Users/giuse/AndroidStudioProjects/BtChat/app/src/main/res/layout/received_layout.xml" value="0.24094202898550723" />
