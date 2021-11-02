@@ -33,8 +33,10 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val args = ChatFragmentArgs.fromBundle(requireArguments())
         val binding = DataBindingUtil.inflate<FragmentChatBinding>(inflater, R.layout.fragment_chat, container, false)
-        //binding.answerAddressDevice.text = "Accidenti"
+        binding.answerAddressDevice.text = args.deviceAddress
         return binding.root
     }
 

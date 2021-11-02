@@ -276,7 +276,7 @@ class ChoiceDeviceFragment : Fragment(), DevicesRecyclerViewAdapter.ItemClickLis
      Si deve mettere dei dati ad un altro fragment
      */
     override fun itemClicked(deviceData: DeviceData) {
-        findNavController().navigate(R.id.action_choiceDeviceFragment_to_chatFragment)
+        findNavController().navigate(ChoiceDeviceFragmentDirections.actionChoiceDeviceFragmentToChatFragment(deviceData.deviceHardwareAddress))
         Toast.makeText(activity, "lanciato il "+deviceData.deviceName, Toast.LENGTH_SHORT ).show()
     }
 

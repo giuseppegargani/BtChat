@@ -24,5 +24,9 @@
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.example.btchat.ChatFragment"
-        android:label="ChatFragment" />
+        android:label="ChatFragment" >
+        <argument
+            android:name="deviceAddress"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -19,7 +19,7 @@ class StartFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentStartBinding>(inflater, R.layout.fragment_start, container, false)
 
         binding.buttonChoice.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_startFragment_to_choiceDeviceFragment)
+            view.findNavController().navigate(StartFragmentDirections.actionStartFragmentToChoiceDeviceFragment())
         }
 
         return binding.root
