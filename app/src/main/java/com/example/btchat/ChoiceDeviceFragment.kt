@@ -211,24 +211,6 @@ class ChoiceDeviceFragment : Fragment(), DevicesRecyclerViewAdapter.ItemClickLis
         }
     }
 
-    //DA METTERE IN VIEWMODEL?
-    private fun connectDevice(deviceData: DeviceData) {
-
-        // Cancel discovery because it's costly and we're about to connect
-        mBtAdapter?.cancelDiscovery()
-        val deviceAddress = deviceData.deviceHardwareAddress
-
-        val device = mBtAdapter?.getRemoteDevice(deviceAddress)
-
-        //TODO DA RIMETTERE
-        //status.text = getString(R.string.connecting)
-        //connectionDot.setImageDrawable(getDrawable(R.drawable.ic_circle_connecting))
-
-        // Attempt to connect to the device
-        mChatService?.connect(device, true)
-
-    }
-
     //it closes the app if there is no bluetooth but signaling it
     private fun showAlertAndExit() {
         //because getContext return a nullable object
@@ -276,8 +258,29 @@ class ChoiceDeviceFragment : Fragment(), DevicesRecyclerViewAdapter.ItemClickLis
      Si deve mettere dei dati ad un altro fragment
      */
     override fun itemClicked(deviceData: DeviceData) {
+        connectDevice(deviceData)
+    }
+
+    private fun connectDevice(deviceData: DeviceData) {
+
+        // Cancel discovery
+        mBtAdapter?.cancelDiscovery()
+        val deviceAddress = deviceData.deviceHardwareAddress
+
+        val device = mBtAdapter?.getRemoteDevice(deviceAddress)
+
+        //parte grafica che segnala connected
+        //status.text = getString(R.string.connecting)
+        //connectionDot.setImageDrawable(getDrawable(R.drawable.ic_circle_connecting))
+
+        /* EXAMPLE !!!!!! We can connect to a service that we have initialized
+          We can change it
+        */
+        //mChatService?.connect(device, true)
+
         findNavController().navigate(ChoiceDeviceFragmentDirections.actionChoiceDeviceFragmentToChatFragment(deviceData.deviceHardwareAddress))
-        Toast.makeText(activity, "lanciato il "+deviceData.deviceName, Toast.LENGTH_SHORT ).show()
+        Toast.makeText(activity, "lanciato bt "+deviceData.deviceName, Toast.LENGTH_SHORT ).show()
+
     }
 
 

@@ -17,8 +17,6 @@ import java.util.*
     getState() ritorna mState (come intero)
     COSTANTI DI CONNESSIONE DI PROFILO BLUETOOTH
     https://developer.android.com/reference/android/bluetooth/BluetoothProfile#STATE_CONNECTED
-
-
  */
 
 class BluetoothChatService(context: Context, handler: Handler){
