@@ -267,7 +267,7 @@ class ChoiceDeviceFragment : Fragment(), DevicesRecyclerViewAdapter.ItemClickLis
         mBtAdapter?.cancelDiscovery()
         val deviceAddress = deviceData.deviceHardwareAddress
 
-        val device = mBtAdapter?.getRemoteDevice(deviceAddress)
+        //val device = mBtAdapter?.getRemoteDevice(deviceAddress)
 
         //parte grafica che segnala connected
         //status.text = getString(R.string.connecting)

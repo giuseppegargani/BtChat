@@ -56,7 +56,7 @@ class ChatFragment : Fragment() {
         var mBtAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         var bluetoothDevice: BluetoothDevice = mBtAdapter.getRemoteDevice(args.deviceAddress)
 
-        connectToServerSocket(bluetoothDevice, uuid)
+        //connectToServerSocket(bluetoothDevice, uuid)
 
         return binding.root
     }
@@ -74,6 +74,7 @@ class ChatFragment : Fragment() {
             mBluetoothSocket = clientSocket
             // Start listening for messages.
             listenForMessages(clientSocket,sb)
+            Log.d("messaggiBt", "messaggi: "+sb.toString())
         } catch (e: IOException) {
             Log.e(TAG, "Bluetooth client I/O Exception.", e)
         }
@@ -115,7 +116,7 @@ class ChatFragment : Fragment() {
                 }
             }
         } catch (e: IOException) {
-            Log.e(TAG, "Message receive failed.", e)
+            Log.e("TAG", "Message receive failed.", e)
         }
         return result
     }
